@@ -49,5 +49,3 @@ Timeline:
 	5)Adding messaging functionality
 	6)Adding online/offline functionality
 	7)Adding group messaging functionality
-
-
