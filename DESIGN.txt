@@ -16,10 +16,12 @@ Techinical Design:
 	   	  Allocating memory: inevitably used somewhere
 		  Files: Most of the persistant data will be stored and read from files
 		  File meta data: used during calculation of when users were last online
-		  Processes: will be used to prevent the sending of messages from bloc			ki			ng incoming messages from being received as well as other necessary asynchronous tasks.
+		  Processes: will be used to prevent the sending of messages from blocking 
+		  	incoming messages from being received as well as other necessary asynchronous tasks.
 		  Signals: Signal handling will be used to handle forced user log offs
 		  Pipes: Integral to server/client communication
-		  Shared Memory: Will be used for different subprocesses to be able to			no			tify each other of new events that have occured (eg new message alert, new friend request)
+		  Shared Memory: Will be used for different subprocesses to be able to notify each other of 
+		  	new events that have occured (eg new message alert, new friend request)
 		  Semaphores: will be used for facilitating group chats
 		  Networking: allowing for people to talk over an internet connection
 
