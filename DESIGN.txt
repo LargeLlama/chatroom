@@ -16,23 +16,23 @@ Techinical Design:
 	   	  Allocating memory: inevitably used somewhere
 		  Files: Most of the persistant data will be stored and read from files
 		  File meta data: used during calculation of when users were last online
-		  Processes: will be used to prevent the sending of messages from blocking incoming messages from being received as well as other necessary asynchronous tasks.
+		  Processes: will be used to prevent the sending of messages from bloc			ki			ng incoming messages from being received as well as other necessary asynchronous tasks.
 		  Signals: Signal handling will be used to handle forced user log offs
 		  Pipes: Integral to server/client communication
-		  Shared Memory: Will be used for different subprocesses to be able to notify each other of new events that have occured (eg new message alert, new friend request)
+		  Shared Memory: Will be used for different subprocesses to be able to			no			tify each other of new events that have occured (eg new message alert, new friend request)
 		  Semaphores: will be used for facilitating group chats
 		  Networking: allowing for people to talk over an internet connection
 
 
 	Split up of work:
 	      Most of we plan to do together collaboratively but the split up is currently:
-	      	   Taaseen -- Networking, group chats, messaging
-		   Rubin -- Profile setup, log in stuff, serverside code
+	      Taaseen -- Networking, group chats, messaging
+	      Rubin -- Profile setup, log in stuff, serverside code
 
-	Data Structures:
-	     We plan on creating our own structs to model things like different profiles
-	     We are planning on creating a database to store much of the serverside data
-	     associated with the project.
+	      Data Structures:
+	      	   We plan on creating our own structs to model things like different profiles
+		   We are planning on creating a database to store much of the serverside data
+		   associated with the project.
 
 	Algorithms:
 		We don't have a set server/client model as of yet, but are currently looking
@@ -48,4 +48,4 @@ Timeline:
 	6)Adding online/offline functionality
 	7)Adding group messaging functionality
 
-	
+
