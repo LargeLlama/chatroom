@@ -12,7 +12,7 @@ client.o: client.c chatroom.h
 server.o: server.c chatroom.h
 	gcc -c server.c
 
-subserver.o: server.c chatroom.h
+subserver.o: subserver.c chatroom.h
 	gcc -c subserver.c
 
 

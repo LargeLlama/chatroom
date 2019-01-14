@@ -14,5 +14,10 @@
 #define BUFFER_SIZE 10
 #define HANDSHAKE_BUFFER_SIZE 10
 
-void handshake(int client_sockfd);
-int ** online;
+int sub_main(int client_sockfd);
+
+struct user{
+  char name[20];
+  char pass[20];
+  int convo_ids[100];
+};

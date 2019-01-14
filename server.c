@@ -48,11 +48,9 @@ int main() {
     int f = fork();
 
     if(!f){
-      //handshake
-      handshake(client_sockfd);
-      
-      char received[BUFFER_SIZE];
-      char to_send[BUFFER_SIZE];
+      sub_main(client_sockfd);
+
+
       /*
       while(read(from_client, received, BUFFER_SIZE)>0){
 	printf("[SERVER] Message received: %s", received);
