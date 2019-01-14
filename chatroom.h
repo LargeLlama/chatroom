@@ -13,11 +13,11 @@
 #define ACK "HELLO"
 #define BUFFER_SIZE 10
 #define HANDSHAKE_BUFFER_SIZE 10
-
+#define USER_INFO_SIZE 10
 int sub_main(int client_sockfd);
 
 struct user{
-  char name[20];
-  char pass[20];
+  char name[10];
+  char pass[10];
   int convo_ids[100];
 };

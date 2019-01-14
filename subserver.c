@@ -16,13 +16,27 @@ void handshake(int client_sockfd){
   send(client_sockfd, "RECIEVED", HANDSHAKE_BUFFER_SIZE, 0);
 }
 
+void make_new_user(int client_sockfd){
+  int users = open("USERS", O_RDWR);
+  struct user new_usr;
+
+  char msg[BUFFER_SIZE];
+
+  recv(client_sockfd, msg, BUFFER_SIZE,0);
+  strncpy(msg, new_usr.name, USER_INFO_SIZE);
+  
+  recv(client_sockfd, msg, BUFFER_SIZE,0);
+  strncpy(new_usr.pass, msg, USER_INFO_SIZE);
+  write(users, &new_usr, sizeof new_usr);
+}
+
 void handle_client_requests(int client_sockfd){
   while(1){
     char string[BUFFER_SIZE];
     recv(client_sockfd, string, BUFFER_SIZE,0);
 
     if(!strcmp(string, "new user"))
-      send(client_sockfd, "making user", BUFFER_SIZE, 0);
+      make_new_user(client_sockfd);
     else if (!strcmp(string, "login"))
       send(client_sockfd, "loggin in", BUFFER_SIZE, 0);
   }

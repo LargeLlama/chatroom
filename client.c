@@ -14,9 +14,22 @@ int client_handshake(int sockfd){
   printf("[CLIENT] Recieved '%s\'\n", string);
   send(sockfd, ACK, HANDSHAKE_BUFFER_SIZE, 0);
   recv(sockfd, string, HANDSHAKE_BUFFER_SIZE, 0);
-  printf("[CLIENT] Recieved\b\b\b\b '%s'\n", string);
+  printf("[CLIENT] Recieved '%s'\n", string);
 }
 
+void new_usr_form(int sockfd){
+  char string[BUFFER_SIZE];
+  
+  printf("What's your name?:");
+  fgets(string, BUFFER_SIZE, stdin);
+  send(sockfd, string, BUFFER_SIZE, 0);
+  
+  printf("Enter new password:");
+  fgets(string, BUFFER_SIZE, stdin);
+  send(sockfd, string, BUFFER_SIZE, 0);
+
+  printf("User created!");
+}
 int main(int argc, char * argv[]) {
   int sockfd;
   struct addrinfo hints, *serverinfo;
@@ -39,8 +52,11 @@ int main(int argc, char * argv[]) {
   char string[BUFFER_SIZE];
   char receive[BUFFER_SIZE];
   while(1){
-    printf("\e[1A[CLIBBT]");
+    printf("[CLIENT] ");
     fgets(string, BUFFER_SIZE, stdin);
+    printf("%d", strcmp(string, "new_usr"));
+    if(!strcmp(string, "new_usr"))
+      new_usr_form(sockfd);
     //    send(sockfd, string, BUFFER_SIZE, 0);
     //    recv(sockfd, receive, BUFFER_SIZE, 0);
 

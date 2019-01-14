@@ -1,9 +1,11 @@
 #include "chatroom.h"
 #include <signal.h>
 #include <string.h>
+#include <fcntl.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
@@ -22,7 +24,10 @@ int main() {
   socklen_t addr_size;
   struct addrinfo hints, *res;
   int server_sockfd;
+  int users;
 
+  users = open("USERS", O_CREAT | O_RDWR, 0666);
+  
   memset(&hints, 0,sizeof hints);
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
