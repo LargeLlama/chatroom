@@ -1,19 +1,20 @@
 all: client server
 
-client: client.o pipe_networking.o
-	gcc -o client client.o pipe_networking.o
+client: client.o chatroom.h
+	gcc -o client client.o  
 
-server: basic_server.o pipe_networking.o
-	gcc -o server basic_server.o pipe_networking.o
+server: server.o subserver.o chatroom.h 
+	gcc -o server server.o subserver.o
 
-client.o: client.c pipe_networking.h
+client.o: client.c chatroom.h
 	gcc -c client.c
 
-basic_server.o: basic_server.c pipe_networking.h
-	gcc -c basic_server.c
+server.o: server.c chatroom.h
+	gcc -c server.c
 
-pipe_networking.o: pipe_networking.c pipe_networking.h
-	gcc -c pipe_networking.c
+subserver.o: server.c chatroom.h
+	gcc -c subserver.c
+
 
 clean:
 	rm *.o
