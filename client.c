@@ -54,9 +54,11 @@ int main(int argc, char * argv[]) {
   while(1){
     printf("[CLIENT] ");
     fgets(string, BUFFER_SIZE, stdin);
-    printf("%d", strcmp(string, "new_usr"));
-    if(!strcmp(string, "new_usr"))
+
+    if(!strncmp(string, "new_usr", 7)){
+      send(sockfd, string, BUFFER_SIZE, 0);
       new_usr_form(sockfd);
+    }
     //    send(sockfd, string, BUFFER_SIZE, 0);
     //    recv(sockfd, receive, BUFFER_SIZE, 0);
 
