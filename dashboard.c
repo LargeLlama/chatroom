@@ -13,6 +13,6 @@ void dashboard_main(int client_sockfd){
   
   while(logged_in){
     recv(client_sockfd, string, BUFFER_SIZE,0);
-    if
+    if(!strncmp(
   }
 }

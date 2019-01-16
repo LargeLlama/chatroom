@@ -8,5 +8,5 @@
 #include <netinet/in.h>
 
 
-void user_home(sockfd){
+void user_home(int sockfd){
 }

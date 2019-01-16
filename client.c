@@ -17,9 +17,6 @@ int client_handshake(int sockfd){
   printf("[CLIENT] Recieved '%s'\n", string);
 }
 
-void user_home(int sockfd){
-}
-
 void new_usr_form(int sockfd){
   char string[BUFFER_SIZE];
   
@@ -42,7 +39,7 @@ void login_form(int sockfd){
   recv(sockfd, string, BUFFER_SIZE, 0);
 
   if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
-    printf("User does not exist");
+    printf("User does not exist\n");
     return;
   }
 
@@ -52,11 +49,11 @@ void login_form(int sockfd){
   send(sockfd, string, BUFFER_SIZE, 0);
   recv(sockfd, string, BUFFER_SIZE, 0);
   if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
-    printf("Incorrect password");
+    printf("Incorrect password\n");
     return;
   }
 
-  printf("Login successful!");
+  printf("Login successful!\n");
   user_home(sockfd);
   
 }

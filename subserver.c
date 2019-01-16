@@ -25,7 +25,11 @@ void make_new_user(int client_sockfd){
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   printf("Recieved %s", msg);
   strncpy(new_usr.name, msg, USER_INFO_SIZE);
-  
+  new_usr.num_friends = 0;
+
+  memset(new_usr.friends,0,100);
+  memset(new_usr.requests,0,100);
+
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   strncpy(new_usr.pass, msg, USER_INFO_SIZE);
   write(users, &new_usr, sizeof new_usr);
@@ -68,7 +72,7 @@ void login(int client_sockfd){
     dashboard_main(client_sockfd);
   }
   else{
-    printf("incorrect password");
+    printf("incorrect password\n");
     send(client_sockfd, ERR, BUFFER_SIZE,0);
   }
 }

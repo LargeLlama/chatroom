@@ -17,11 +17,14 @@
 #define USER_INFO_SIZE 10
 
 int sub_main(int client_sockfd);
-int dashboard_main(int client_sockfd);
-void user_home(sockfd);
+void dashboard_main(int client_sockfd);
+void user_home(int sockfd);
 
 struct user{
   char name[10];
   char pass[10];
   int convo_ids[100];
+  int num_friends;
+  char friends[100];
+  char requests[100];
 };
