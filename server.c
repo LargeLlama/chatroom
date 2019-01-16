@@ -14,7 +14,8 @@
 
 static void on_close(int signo){
   printf("[SERVER] Closing server...");
-  remove("mario");
+  remove("sub.err");
+  //remove("USERS");
   exit(0);
 }
 
@@ -36,6 +37,11 @@ int main() {
   getaddrinfo(NULL, PORTNUM, &hints, &res);
   
   server_sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+  int yes=1;
+  if (setsockopt(server_sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes)==-1){
+    perror("setsockopt");
+    exit(1);
+  }
   bind(server_sockfd, res->ai_addr, res->ai_addrlen);
   listen(server_sockfd, BACKLOG);
   

@@ -17,6 +17,9 @@ int client_handshake(int sockfd){
   printf("[CLIENT] Recieved '%s'\n", string);
 }
 
+void user_home(int sockfd){
+}
+
 void new_usr_form(int sockfd){
   char string[BUFFER_SIZE];
   
@@ -28,8 +31,36 @@ void new_usr_form(int sockfd){
   fgets(string, BUFFER_SIZE, stdin);
   send(sockfd, string, BUFFER_SIZE, 0);
 
-  printf("User created!");
+  printf("User created!\n");
 }
+
+void login_form(int sockfd){
+  char string[BUFFER_SIZE];
+  printf("Enter username: ");
+  fgets(string, BUFFER_SIZE, stdin);
+  send(sockfd, string, BUFFER_SIZE, 0);
+  recv(sockfd, string, BUFFER_SIZE, 0);
+
+  if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
+    printf("User does not exist");
+    return;
+  }
+
+  printf("Enter password: ");
+
+  fgets(string, BUFFER_SIZE, stdin);
+  send(sockfd, string, BUFFER_SIZE, 0);
+  recv(sockfd, string, BUFFER_SIZE, 0);
+  if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
+    printf("Incorrect password");
+    return;
+  }
+
+  printf("Login successful!");
+  user_home(sockfd);
+  
+}
+
 int main(int argc, char * argv[]) {
   int sockfd;
   struct addrinfo hints, *serverinfo;
@@ -46,11 +77,11 @@ int main(int argc, char * argv[]) {
   connect(sockfd, serverinfo->ai_addr, serverinfo->ai_addrlen);
 
   printf("[CLIENT] Connected!\n ");
-
   client_handshake(sockfd);
 
   char string[BUFFER_SIZE];
   char receive[BUFFER_SIZE];
+
   while(1){
     printf("[CLIENT] ");
     fgets(string, BUFFER_SIZE, stdin);
@@ -59,6 +90,12 @@ int main(int argc, char * argv[]) {
       send(sockfd, string, BUFFER_SIZE, 0);
       new_usr_form(sockfd);
     }
+
+    if(!strncmp(string, "login", 5)){
+      send(sockfd, string, BUFFER_SIZE, 0);
+      login_form(sockfd);
+    }
+	
     //    send(sockfd, string, BUFFER_SIZE, 0);
     //    recv(sockfd, receive, BUFFER_SIZE, 0);
 

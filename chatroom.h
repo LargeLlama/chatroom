@@ -7,14 +7,18 @@
 #include <string.h>
 #include <errno.h>
 
-
-
 #define PORTNUM "9949"
 #define ACK "HELLO"
-#define BUFFER_SIZE 10
+#define ERR "ERRO"
+#define PASS "PASS"
+#define SUCCESS_SIG_SIZE 4
+#define BUFFER_SIZE 15
 #define HANDSHAKE_BUFFER_SIZE 10
 #define USER_INFO_SIZE 10
+
 int sub_main(int client_sockfd);
+int dashboard_main(int client_sockfd);
+void user_home(sockfd);
 
 struct user{
   char name[10];
