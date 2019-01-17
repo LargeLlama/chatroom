@@ -16,15 +16,18 @@
 #define HANDSHAKE_BUFFER_SIZE 10
 #define USER_INFO_SIZE 10
 
-int sub_main(int client_sockfd);
-void dashboard_main(int client_sockfd);
-void user_home(int sockfd);
-
 struct user{
   char name[10];
   char pass[10];
   int convo_ids[100];
   int num_friends;
+  int num_requests;
   char friends[100];
   char requests[100];
 };
+
+
+int sub_main(int client_sockfd);
+int lookup_account(char* name, struct user* buf);
+void dashboard_main(int client_sockfd, struct user usr);
+void user_home(int sockfd);

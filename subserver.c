@@ -69,7 +69,7 @@ void login(int client_sockfd){
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   if(!strncmp(usr.pass,msg, USER_INFO_SIZE)){
     send(client_sockfd, PASS, BUFFER_SIZE,0);
-    dashboard_main(client_sockfd);
+    dashboard_main(client_sockfd, usr);
   }
   else{
     printf("incorrect password\n");
