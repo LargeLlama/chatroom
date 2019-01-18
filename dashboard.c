@@ -24,6 +24,8 @@ void add_friend(int client_sockfd, struct user usr){
   
   strcpy(&friend.requests[friend.num_requests], usr.name);
   friend.num_requests++;
+
+  printf("%s", friend.requests[friend.num_requests]);
   
 }
 
