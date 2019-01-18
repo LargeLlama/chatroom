@@ -17,7 +17,10 @@ void add_friend_form(int sockfd){
 
   if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
     printf("user doesn't exist");
+    return;
   }
+  recv(sockfd, string, BUFFER_SIZE, 0);
+  printf("found user: %s", string);
 
 }
 
