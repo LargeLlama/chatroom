@@ -25,16 +25,34 @@ void make_new_user(int client_sockfd){
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   printf("Recieved %s", msg);
   strncpy(new_usr.name, msg, USER_INFO_SIZE);
+  
+  new_usr.name[strlen(new_usr.name)] = 0;
   new_usr.num_friends = 0;
-
-  memset(new_usr.friends,0,100);
-  memset(new_usr.requests,0,100);
+  new_usr.num_requests = 0;
 
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   strncpy(new_usr.pass, msg, USER_INFO_SIZE);
+
   write(users, &new_usr, sizeof new_usr);
   close(users);
 
+}
+
+int update_account(struct user* buf){
+  int users = open("USERS", O_RDWR);
+  struct user usr;
+  int r, i;
+  for(r=read(users, &usr, sizeof usr), i=0; strncmp(usr.name, buf->name, USER_INFO_SIZE) && r; r=read(users, &usr, sizeof usr), i++);
+  printf("i: %d", i);
+  lseek(users, i*sizeof usr, SEEK_SET);
+  if(write(users, buf, sizeof usr)==-1){
+    return -1;
+  }
+  else{
+    printf("good");
+    return 0;
+  }
+  
 }
 
 int lookup_account(char* name, struct user* buf){
@@ -69,7 +87,7 @@ void login(int client_sockfd){
   recv(client_sockfd, msg, BUFFER_SIZE,0);
   if(!strncmp(usr.pass,msg, USER_INFO_SIZE)){
     send(client_sockfd, PASS, BUFFER_SIZE,0);
-    dashboard_main(client_sockfd, usr);
+    dashboard_main(client_sockfd, &usr);
   }
   else{
     printf("incorrect password\n");
@@ -94,7 +112,7 @@ void handle_client_requests(int client_sockfd){
 }
 
 int sub_main(int client_sockfd){
-  int err = open("sub.err", O_CREAT|O_RDWR, 0666);
+  int err = open("sub.log", O_CREAT|O_RDWR, 0666);
 
   dup2(err, 1);
   printf("dfks;");

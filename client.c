@@ -19,13 +19,17 @@ int client_handshake(int sockfd){
 
 void new_usr_form(int sockfd){
   char string[BUFFER_SIZE];
-  
+
   printf("What's your name?:");
   fgets(string, BUFFER_SIZE, stdin);
+
+  string[strlen(string)-1] = 0;
   send(sockfd, string, BUFFER_SIZE, 0);
   
   printf("Enter new password:");
+
   fgets(string, BUFFER_SIZE, stdin);
+  string[strlen(string)-1] = 0;
   send(sockfd, string, BUFFER_SIZE, 0);
 
   printf("User created!\n");
@@ -33,8 +37,12 @@ void new_usr_form(int sockfd){
 
 void login_form(int sockfd){
   char string[BUFFER_SIZE];
+  char name[BUFFER_SIZE]; 
+
   printf("Enter username: ");
   fgets(string, BUFFER_SIZE, stdin);
+  string[strlen(string)-1] = 0;
+  
   send(sockfd, string, BUFFER_SIZE, 0);
   recv(sockfd, string, BUFFER_SIZE, 0);
 
@@ -46,6 +54,8 @@ void login_form(int sockfd){
   printf("Enter password: ");
 
   fgets(string, BUFFER_SIZE, stdin);
+  string[strlen(string)-1] = 0;
+  
   send(sockfd, string, BUFFER_SIZE, 0);
   recv(sockfd, string, BUFFER_SIZE, 0);
   if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){

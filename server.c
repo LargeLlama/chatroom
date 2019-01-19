@@ -14,7 +14,7 @@
 
 static void on_close(int signo){
   printf("[SERVER] Closing server...");
-  remove("sub.err");
+  remove("sub.log");
   //remove("USERS");
   exit(0);
 }

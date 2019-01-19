@@ -22,12 +22,13 @@ struct user{
   int convo_ids[100];
   int num_friends;
   int num_requests;
-  char friends[100];
-  char requests[100];
+  char friends[100][10];
+  char requests[100][10];
 };
 
 
 int sub_main(int client_sockfd);
 int lookup_account(char* name, struct user* buf);
-void dashboard_main(int client_sockfd, struct user usr);
+int update_account(struct user* buf);
+void dashboard_main(int client_sockfd, struct user* usr);
 void user_home(int sockfd);
