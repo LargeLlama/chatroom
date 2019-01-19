@@ -14,11 +14,11 @@ void start_conversation(int client_sockfd, int convofd, struct user* usr){
   
   while(strncmp(string, "/quit", 5)){
     if(strcmp(string,"\n")){
-      lseek(convofd, -200, SEEK_END);
+      // lseek(convofd, -200, SEEK_END);
       read(convofd, to_send, 200);
     }
-    write(convofd, string, 200);
-    lseek(convofd, -200, SEEK_END);
+    write(convofd, string, BUFFER_SIZE);
+    // lseek(convofd, -200, SEEK_END);
     read(convofd, to_send, 200);
     send(client_sockfd, to_send, BUFFER_SIZE,0);
     recv(client_sockfd, string, BUFFER_SIZE,0);

@@ -15,7 +15,7 @@ void enter_convo(int sockfd){
     recv(sockfd, string, 200, 0);
     printf("%s", string);
     fgets(input, BUFFER_SIZE, stdin);
-    send(sockfd, "\n", BUFFER_SIZE, 0);
+    send(sockfd, input, BUFFER_SIZE, 0);
   }
 
 }
