@@ -7,6 +7,34 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+void enter_convo(int sockfd){
+  char string[200];
+  char input[BUFFER_SIZE];
+  send(sockfd, "\n", BUFFER_SIZE, 0);
+  while(strncmp(input, "/quit", 5)){
+    recv(sockfd, string, 200, 0);
+    printf("%s", string);
+    fgets(input, BUFFER_SIZE, stdin);
+    send(sockfd, "\n", BUFFER_SIZE, 0);
+  }
+
+}
+
+void start_convo(int sockfd){
+  char string[BUFFER_SIZE];
+  printf("Who do you want to talk to?\n");
+  fgets(string, BUFFER_SIZE, stdin);
+  string[strlen(string)-1] = 0;
+  send(sockfd, string, USER_INFO_SIZE, 0);
+  if(!strncmp(string, ERR, BUFFER_SIZE)){
+    printf("That person isn't one of your friends\n");
+    return;
+  }
+
+  enter_convo(sockfd);
+  
+}
+
 void get_friend_list(int sockfd){
   char string[BUFFER_SIZE];
   printf("Friends:\n");
@@ -80,6 +108,14 @@ void user_home(int sockfd){
       send(sockfd, string, BUFFER_SIZE, 0);
       get_friend_list(sockfd);
     }
+
+    if(!strncmp(string, "messaging", 9)){
+      send(sockfd, "show friends", BUFFER_SIZE, 0);
+      get_friend_list(sockfd);
+      send(sockfd, "get convo", BUFFER_SIZE, 0);
+      start_convo(sockfd);
+    }
+
 
   } 
 

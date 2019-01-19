@@ -7,9 +7,58 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-void create_convo(int client_sockfd, struct user* usr){
+void start_conversation(int client_sockfd, int convofd, struct user* usr){
   char string[BUFFER_SIZE];
+  char to_send[200];
   recv(client_sockfd, string, BUFFER_SIZE,0);
+  
+  while(strncmp(string, "/quit", 5)){
+    if(strcmp(string,"\n")){
+      lseek(convofd, -200, SEEK_END);
+      read(convofd, to_send, 200);
+    }
+    write(convofd, string, 200);
+    lseek(convofd, -200, SEEK_END);
+    read(convofd, to_send, 200);
+    send(client_sockfd, to_send, BUFFER_SIZE,0);
+    recv(client_sockfd, string, BUFFER_SIZE,0);
+    
+  }
+}
+
+void get_convo(int client_sockfd, struct user* usr){
+  printf("in get convo\n");
+  char string[USER_INFO_SIZE];
+  char *first;
+  char *last;
+  
+  recv(client_sockfd, string, USER_INFO_SIZE,0);
+
+  for(int i=0; strncmp(usr->friends[i], string, USER_INFO_SIZE); i++){
+    if(i==usr->num_friends-1){
+        send(client_sockfd, ERR, BUFFER_SIZE,0);
+	printf("bad name\n");
+	return;
+    }
+  }
+  send(client_sockfd, PASS, BUFFER_SIZE,0);
+      
+  if(strncmp(usr->name, string, USER_INFO_SIZE)<0){
+    first = usr->name;
+    last = string;
+  }
+  else{
+    last = usr->name;
+    first = string;
+  }
+
+  char convo_name[strlen(first) + strlen(last)];
+  strncpy(convo_name, first, strlen(first));
+  strncpy(convo_name+strlen(first), last, strlen(last)+1);
+  printf("convo: %s\n", convo_name);
+  int convo = open(convo_name, O_CREAT | O_RDWR | O_APPEND, 0666);
+ 
+  start_conversation(client_sockfd, convo, usr);
   
 }
 
@@ -79,6 +128,10 @@ void dashboard_main(int client_sockfd, struct user* _usr){
     
     if(!strncmp(string, "show friends", 12)){
       list_friends(client_sockfd, usr);
+    }
+
+    if(!strncmp(string, "get convo", 9)){
+      get_convo(client_sockfd, usr);
     }
 
   }
