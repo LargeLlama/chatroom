@@ -31,5 +31,5 @@ Promised Features which will hopefully make an appearance in V2:
 3. the ablilty to delete user accounts from the program itself/administrative controls.
 
 ### Other Notes
--The only way to remove users currently is to delete the file named USERS. Doing so will permaanently delete everything associated with all users in the system
--A file named sub.log may show up in the directory when running the client side code. This was implemented to facilitate debugging and will delete itself after the client exits. 
+- The only way to remove users currently is to delete the file named USERS. Doing so will permaanently delete everything associated with all users in the system
+- A file named sub.log may show up in the directory when running the client side code. This was implemented to facilitate debugging and will delete itself after the client exits. 
