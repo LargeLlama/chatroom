@@ -33,3 +33,14 @@ Promised Features which will hopefully make an appearance in V2:
 ### Other Notes
 - The only way to remove users currently is to delete the file named USERS. Doing so will permaanently delete everything associated with all users in the system
 - A file named sub.log may show up in the directory when running the client side code. This was implemented to facilitate debugging and will delete itself after the client exits. 
+
+We've also included some sample user accounts for you to play around with:
+```
+usrname, password
+
+tali, 3
+rpeci, 3
+dw, 1
+contreras, stuy
+```
+Note: all password were completely arbitrary. They don't have to be just one number (but they have to be under 10 characters)
