@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+int connected=1;
 
 void handshake(int client_sockfd){
   char string[HANDSHAKE_BUFFER_SIZE];
@@ -46,10 +47,12 @@ int update_account(struct user* buf){
   printf("i: %d", i);
   lseek(users, i*sizeof usr, SEEK_SET);
   if(write(users, buf, sizeof usr)==-1){
+    close(users);
     return -1;
   }
   else{
     printf("good");
+    close(users);
     return 0;
   }
   
@@ -100,7 +103,7 @@ void handle_client_requests(int client_sockfd){
   while(1){
     recv(client_sockfd, string, BUFFER_SIZE,0);
     printf("msg: %s", string);
-    if(!strncmp(string, "new_usr", 7)){
+    if(!strncmp(string, "new user", 8)){
       make_new_user(client_sockfd);
       *string = 0;
     }
@@ -108,15 +111,20 @@ void handle_client_requests(int client_sockfd){
       login(client_sockfd);
       *string = 0;
     }
+
+    else if(!strncmp(string, "quit", 4)){
+      return;
+    }
   }
 }
 
 int sub_main(int client_sockfd){
-  int err = open("sub.log", O_CREAT|O_RDWR, 0666);
 
+  int err = open("sub.log", O_CREAT|O_RDWR, 0666);
   dup2(err, 1);
-  printf("dfks;");
   handshake(client_sockfd);
+
   handle_client_requests(client_sockfd);
   
+  close(err);
 }

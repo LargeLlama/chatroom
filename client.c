@@ -86,12 +86,14 @@ int main(int argc, char * argv[]) {
     printf("                 ^ ip address of server\n");
     return 1;
   }
-
+  
+  printf("[CLIENT] Connected!\n");
+  
   printf("Welcome to CoderzConnect--The back page of the internet:\n");
   printf("Here are some commands to get you started:\n");
   printf("    new user -- follow the prompts to make a new account with us\n");
   printf("    login ----- follow prompts to sign in and go to your dashboard\n");
-  printf("    quit ------ our way of saying farewell\n" );
+  printf("    quit ------ our way of saying farewell\n\n" );
   
   printf("[CLIENT] Connected!\n");
   client_handshake(sockfd);
@@ -103,7 +105,7 @@ int main(int argc, char * argv[]) {
     printf("[CLIENT] ");
     fgets(string, BUFFER_SIZE, stdin);
 
-    if(!strncmp(string, "new_usr", 7)){
+    if(!strncmp(string, "new user", 8)){
       send(sockfd, string, BUFFER_SIZE, 0);
       new_usr_form(sockfd);
     }
@@ -112,6 +114,13 @@ int main(int argc, char * argv[]) {
       send(sockfd, string, BUFFER_SIZE, 0);
       login_form(sockfd);
     }
+
+    if(!strncmp(string, "quit", 4)){
+      send(sockfd, string, BUFFER_SIZE, 0);
+      printf("Goodbye!\n");
+      return 0;
+    }
+
 
   }
 

@@ -14,6 +14,7 @@ void enter_convo(int sockfd){
 
   char string[CONVO_SAVE_SIZE];
   char input[CONVO_BUFFER_SIZE];
+  memset(input, 0, CONVO_BUFFER_SIZE);
   time_t s_time;
   char * time;
   printf("\n====================================\n");
@@ -22,7 +23,7 @@ void enter_convo(int sockfd){
   time = ctime(&s_time);
   printf("Last active %s", time);
   printf("====================================\n");
-
+  printf("Type '/quit' to exit messenger\n");
   while(strncmp(input, "/quit", 5)){
     printf("[ENTER to update feed]:");
   
@@ -37,7 +38,7 @@ void enter_convo(int sockfd){
 
 void start_convo(int sockfd){
   char string[BUFFER_SIZE];
-  printf("Choose a recepient:\n");
+  printf("Choose a recepient:");
   fgets(string, BUFFER_SIZE, stdin);
   string[strlen(string)-1] = 0;
   send(sockfd, string, USER_INFO_SIZE, 0);
@@ -113,7 +114,14 @@ void user_home(int sockfd){
   
   int logged_in = 1;
   char string[BUFFER_SIZE];
-  
+  printf("\nWelcome back!\n");
+  printf("--------------\n");
+  printf("What would you like to do?\n");
+  printf("add a friend:                                Type 'add friend'\n");
+  printf("view your friends list:                      Type 'show friends'\n");
+  printf("see if you have any pending friend request:  Type 'check reqs'\n");
+  printf("start/continue a conversation with someone:  Type 'messaging'\n");
+  printf("================================================================\n");
   while(logged_in){
     printf("[DASHBOARD] ");
     fgets(string, BUFFER_SIZE, stdin);
@@ -139,6 +147,18 @@ void user_home(int sockfd){
       send(sockfd, "get convo", BUFFER_SIZE, 0);
       start_convo(sockfd);
     }
+    
+    if(!strncmp(string, "logout", 6)){
+      char res[3];
+      printf("Are you sure? y/n:");
+      fgets(res, 3, stdin);
+      if(!strncmp(res, "y", 1)){
+	send(sockfd, "logout", BUFFER_SIZE, 0);
+	logged_in = 0;
+      }
+      
+    }
+
 
 
   } 

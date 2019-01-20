@@ -15,7 +15,6 @@
 static void on_close(int signo){
   printf("[SERVER] Closing server...");
   remove("sub.log");
-  //remove("USERS");
   exit(0);
 }
 
@@ -37,6 +36,7 @@ int main() {
   getaddrinfo(NULL, PORTNUM, &hints, &res);
   
   server_sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+
   int yes=1;
   if (setsockopt(server_sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes)==-1){
     perror("setsockopt");
@@ -61,22 +61,6 @@ int main() {
     if(!f){
       sub_main(client_sockfd);
 
-
-      /*
-      while(read(from_client, received, BUFFER_SIZE)>0){
-	printf("[SERVER] Message received: %s", received);
-	strcpy(to_send, received);
-	int i=0;
-	while(to_send[i]){
-	  if(!strncmp(&to_send[i], "c", 1))
-	    to_send[i] = 'b';
-	  i++;
-	}
-	
-	write(to_client, to_send, BUFFER_SIZE);
-      }
-      */
-      //close(to_client);
       printf("[SERVER] Client disconnected\n");
     }
   }

@@ -35,7 +35,7 @@ void start_conversation(int client_sockfd, int convofd, struct user* usr){
     size = CONVO_SAVE_SIZE;
 
 
-  send(client_sockfd, &file.st_atime, sizeof file.st_atime, 0);
+  send(client_sockfd, &file.st_atime, sizeof file.st_mtime, 0);
 
   recv(client_sockfd, string, CONVO_BUFFER_SIZE,0);
   while(strncmp(string, "/quit", 5)){
@@ -94,6 +94,7 @@ void get_convo(int client_sockfd, struct user* usr){
   int convo = open(convo_name, O_CREAT | O_RDWR | O_APPEND, 0666);
  
   start_conversation(client_sockfd, convo, usr);
+  close(convo);
   printf("out convo\n");
   
 }
@@ -169,6 +170,13 @@ void dashboard_main(int client_sockfd, struct user* _usr){
     if(!strncmp(string, "get convo", 9)){
       get_convo(client_sockfd, usr);
     }
+
+    if(!strncmp(string, "logout", 6)){
+      printf("logout\n");
+      logged_in = 0;
+      return;
+    }
+
 
   }
 }
