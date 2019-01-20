@@ -115,6 +115,11 @@ void check_requests(int client_sockfd, struct user* usr){
     if(!strncmp(string, "y", 1)){
       strcpy(usr->friends[usr->num_friends], usr->requests[i]);
       usr->num_friends++;
+      struct user sender;
+      lookup_account(usr->requests[i], &sender);
+      strcpy(sender.friends[sender.num_friends], usr->name);
+      sender.num_friends++;
+      update_account(&sender);
     }
   }
   usr->num_requests = 0;
