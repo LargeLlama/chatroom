@@ -5,25 +5,60 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 
 void start_conversation(int client_sockfd, int convofd, struct user* usr){
-  char string[BUFFER_SIZE];
-  char to_send[200];
-  recv(client_sockfd, string, BUFFER_SIZE,0);
+  key_t KEY = ftok(".", 'R');
+  struct sembuf semup = {.sem_num=0, .sem_op=1, .sem_flg=SEM_UNDO};
+  struct sembuf semdown = {.sem_num=0, .sem_op=-1, .sem_flg=SEM_UNDO};
+  int semid = semget(KEY, 1, 0666 | IPC_CREAT);
+  union semun semdata;
+  semdata.val = 1;
+  semctl(semid, 0, SETVAL, semdata);
+
+  char string[CONVO_BUFFER_SIZE];
+  char conversation[CONVO_SAVE_SIZE];
+  char to_write[CONVO_BUFFER_SIZE];
+  int size, offset;
+
+  strcpy(to_write, usr->name);
+  strcpy(to_write + strlen(usr->name), ": ");
+  offset = strlen(usr->name)+2;
   
+  struct stat file;
+  fstat(convofd, &file);
+
+  size = file.st_size;
+
+  if(size>=CONVO_SAVE_SIZE)
+    size = CONVO_SAVE_SIZE;
+
+
+  send(client_sockfd, &file.st_atime, sizeof file.st_atime, 0);
+
+  recv(client_sockfd, string, CONVO_BUFFER_SIZE,0);
   while(strncmp(string, "/quit", 5)){
-    if(strcmp(string,"\n")){
-      // lseek(convofd, -200, SEEK_END);
-      read(convofd, to_send, 200);
+    if(strncmp(string, "\n", 2)){
+      strcpy(to_write + offset, string);
+
+      semop(semid, &semdown, 1);
+      write(convofd, to_write, strlen(string)+offset);
+      semop(semid, &semup, 1);
+
+      fstat(convofd, &file);
+      size = file.st_size;
+      if(size>=CONVO_SAVE_SIZE)
+	size = CONVO_SAVE_SIZE;
     }
-    write(convofd, string, BUFFER_SIZE);
-    // lseek(convofd, -200, SEEK_END);
-    read(convofd, to_send, 200);
-    send(client_sockfd, to_send, BUFFER_SIZE,0);
-    recv(client_sockfd, string, BUFFER_SIZE,0);
-    
+
+    lseek(convofd, -size, SEEK_END);
+    read(convofd, conversation, size);
+    send(client_sockfd, conversation, CONVO_SAVE_SIZE, 0);
+    recv(client_sockfd, string, CONVO_BUFFER_SIZE,0);
   }
+  send(client_sockfd, "quiting...\n", CONVO_SAVE_SIZE, 0);
+
 }
 
 void get_convo(int client_sockfd, struct user* usr){
@@ -59,6 +94,7 @@ void get_convo(int client_sockfd, struct user* usr){
   int convo = open(convo_name, O_CREAT | O_RDWR | O_APPEND, 0666);
  
   start_conversation(client_sockfd, convo, usr);
+  printf("out convo\n");
   
 }
 

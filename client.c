@@ -83,7 +83,7 @@ int main(int argc, char * argv[]) {
   printf("[CLIENT] Attempting to connect to argv[1]...\n");
   connect(sockfd, serverinfo->ai_addr, serverinfo->ai_addrlen);
 
-  printf("[CLIENT] Connected!\n ");
+  printf("[CLIENT] Connected!\n");
   client_handshake(sockfd);
 
   char string[BUFFER_SIZE];
@@ -102,10 +102,6 @@ int main(int argc, char * argv[]) {
       send(sockfd, string, BUFFER_SIZE, 0);
       login_form(sockfd);
     }
-	
-    //    send(sockfd, string, BUFFER_SIZE, 0);
-    //    recv(sockfd, receive, BUFFER_SIZE, 0);
-
     
   }
 

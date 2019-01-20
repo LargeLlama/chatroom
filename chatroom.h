@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 
 #define PORTNUM "9949"
 #define ACK "HELLO"
@@ -13,8 +15,10 @@
 #define PASS "PASS"
 #define SUCCESS_SIG_SIZE 4
 #define BUFFER_SIZE 15
+#define CONVO_BUFFER_SIZE 30
 #define HANDSHAKE_BUFFER_SIZE 10
 #define USER_INFO_SIZE 10
+#define CONVO_SAVE_SIZE 500
 
 struct user{
   char name[10];
@@ -24,6 +28,14 @@ struct user{
   int num_requests;
   char friends[100][10];
   char requests[100][10];
+};
+
+union semun {
+  int              val;    /* Value for SETVAL */
+  struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+  unsigned short  *array;  /* Array for GETALL, SETALL */
+  struct seminfo  *__buf;  /* Buffer for IPC_INFO
+			      (Linux-specific) */
 };
 
 
