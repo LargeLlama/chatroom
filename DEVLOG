@@ -1,0 +1,40 @@
+DEVLOG
+
+Taaseen Ali
+Rubin Peci
+===================================================
+
+2018-12-28
+  all: added DESIGN
+
+2019-01-04
+  Both: started framework for sever/client
+
+2019-01-10
+  Taaseen: implemented networking and finished most of server/client
+  Rubin: started on file system
+
+2019-01-11
+  Both: revised server/client relationship
+  Taaseen: rewrote server code
+
+2019-01-13
+  Rubin: seperated code into different files
+  Taaseen: created chatroom.h and moved restructered existing code
+
+2019-01-15
+  Taaseen: allowed for users to be created and stored in files. Added ability to add other friends.
+  Rubin: fixed connection bug
+
+2019-01-16
+  Taaseen: added ability for users to respond to requests
+  
+2019-01-18
+  Taaseen: Created more robust lookup functions. Fixed bug in finding/adding other users. Started on allowing for messages
+  to be sent to common file. Allowed for user input and server output to be seen at the same time and on the same terminal. 
+  Allowed for users to view friends list.
+  Rubin: added to client side code and print statements
+
+2019-01-19:
+  Taaseen: Fixed persistent bugs and allowed users to navigate through the program easier. Users can now also logout.
+
