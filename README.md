@@ -36,7 +36,7 @@ Promised Features which will hopefully make an appearance in V2:
 
 We've also included some sample user accounts for you to play around with:
 ```
-usrname, password
+Accounts are written as usrname, password
 
 tali, 3
 rpeci, 3
