@@ -71,7 +71,7 @@ void check_request_form(int sockfd){
   recv(sockfd, string, BUFFER_SIZE, 0);
   while(strncmp(string, PASS, SUCCESS_SIG_SIZE)){
     if(!strncmp(string, ERR, SUCCESS_SIG_SIZE)){
-      printf("Bad answer\n");
+      printf("Bad answer. Please answer with y/n\n");
       return;
     }
     
