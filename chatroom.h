@@ -15,10 +15,10 @@
 #define PASS "PASS"
 #define SUCCESS_SIG_SIZE 4
 #define BUFFER_SIZE 15
-#define CONVO_BUFFER_SIZE 30
+#define CONVO_BUFFER_SIZE 100
 #define HANDSHAKE_BUFFER_SIZE 10
 #define USER_INFO_SIZE 10
-#define CONVO_SAVE_SIZE 500
+#define CONVO_SAVE_SIZE 1000
 
 struct user{
   char name[10];
